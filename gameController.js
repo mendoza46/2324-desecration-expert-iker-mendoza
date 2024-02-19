@@ -7,6 +7,10 @@ const game = async (heroes) => {
 
     const startingOrder = getStartingOrder(villainZarate, superHero);
 
+    const erudito = createErudito();
+
+    const eruditoSpawn = Math.floor(Math.random() * ( 5 - 3 + 1 ) + 3);
+
     console.log(`WELCOME TO THE COMBAT ARENA!!`);
     console.log(`------------------------------`);
     console.log(`Hoy combatirán ${superHero.name} y ${villainZarate.name}`);
@@ -160,6 +164,16 @@ const game = async (heroes) => {
     }
 }
 
+const createErudito = () => {
+    const diceResult = diceNumbers.dice1D20();
+    const erudito = {
+        name: "El Erudito X.G.",
+        ANG: 0,
+        HPW: diceResult + 1,
+        HPG: "Invincible"
+    }
+    return erudito;
+}
 
 const getZarate = (heroes) => {
     const villainZarate = heroes.find(hero => hero.name === "Junkpile");
@@ -175,8 +189,6 @@ const getRandomHero = (heroes, villainZarate) => {
     } while (randomNum === villainZarate.id || heroes.find(hero => hero.id === randomNum) === undefined);
 
     const superHero = heroes.find(hero => hero.id === randomNum);
-    console.log("superHero dentro de la funcion getRandomHero")
-    console.log(superHero)
     return superHero;
 }
 
@@ -185,8 +197,6 @@ const getStartingOrder = (villainZarate, superHero) => {
 
     let turn = [];
 
-    console.log("superHero")
-    console.log(superHero)
     if(villainZarate.powerstats.intelligence + villainZarate.powerstats.combat > superHero.powerstats.intelligence + superHero.powerstats.combat){
         turn.push(villainZarate);
         turn.push(superHero);
