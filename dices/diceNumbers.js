@@ -40,11 +40,17 @@ const dice3D5 = () => {
     return number;
 }
 
+const dice1D10 = () => {
+    const number = Math.floor(Math.random() * 10) + 1;
+    return number;
+}
+
 module.exports={
     dice1D100,
     dice1D20,
     dice1D3,
     dice2D3,
     dice4D3,
-    dice3D5
+    dice3D5,
+    dice1D10
 }

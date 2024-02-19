@@ -9,7 +9,7 @@ const game = async (heroes) => {
 
     const erudito = createErudito();
 
-    const eruditoSpawn = Math.floor(Math.random() * ( 5 - 3 + 1 ) + 3);
+    let eruditoSpawn = Math.floor(Math.random() * ( 5 - 3 + 1 ) + 3);
 
     console.log(`WELCOME TO THE COMBAT ARENA!!`);
     console.log(`------------------------------`);
@@ -46,12 +46,58 @@ const game = async (heroes) => {
     let noTurn = 1;
 
     while(villainZarate.powerstats.hitPoints > 0 && superHero.powerstats.hitPoints > 0){
+        let success;
         
+        if(eruditoSpawn === 0){
+            eruditoSpawn = Math.floor(Math.random() * ( 5 - 3 + 1 ) + 3);
+
+            const diceThrow = diceNumbers.dice1D20();
+            erudito.ANG = diceThrow;
+
+            console.log(`El erudito ha perdido las gafas y ${superHero.name} las ha encontrado y se las ha puesto y le han causado un efecto negativo`);
+
+            let damage;
+            if(erudito.ANG >= 1 && erudito.ANG <=3){
+
+                const dice = diceNumbers.dice1D20;
+                damage = dice;
+
+                startingOrder[turn].powerstats.strength = Math.floor(startingOrder[turn].powerstats.strength / 2);
+                console.log(`Pifia, ${superHero.name} se lesiona el brazo izquierdo`);
+            }
+            else if(erudito.ANG >= 4 && erudito.ANG <= 6){
+                const dice = diceNumbers.dice1D20;
+                damage = dice;
+
+                startingOrder[turn].powerstats.strength = Math.floor(startingOrder[turn].powerstats.strength / 2);
+                console.log(`Pifia, ${superHero.name} se lesiona el brazo derecho`);
+            }
+            else if(erudito.ANG >= 7 && erudito.ANG <= 9){
+                startingOrder[turn].hitPoints = -1;
+                console.log(`Caos ${superHero.name} pierde la memoria y no ataca`);
+                success = false;
+            }
+            else if(erudito.ANG >= 10 && erudito.ANG <= 13){
+                const dice = diceNumbers.dice1D10();
+                damage = dice;
+                console.log(`${erudito.name} grita: TÚ ERES TONTO`);
+            }
+            else if(erudito.ANG >= 14 && erudito.ANG <= 16){
+                const dice = diceNumbers.dice1D10();
+                damage = dice;
+                console.log(`${erudito.name} grita: TÚ ERES TONTO`);
+            }
+            
+        }
+        else{
+            eruditoSpawn--;
+        }
+
+
         console.log(`------------------------------`);
         console.log(`Comienza el asalto ${i}`);
         console.log(`------------------------------`);
     
-        let success;
         console.log(`El asalto es para ${startingOrder[turn].name}`);
     
         const firstDiceThrow = diceNumbers.dice1D100();
@@ -163,6 +209,7 @@ const game = async (heroes) => {
         console.log(`${startingOrder[1].name} ha sido derrotado`);
     }
 }
+
 
 const createErudito = () => {
     const diceResult = diceNumbers.dice1D20();
