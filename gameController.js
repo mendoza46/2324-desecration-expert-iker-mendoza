@@ -95,7 +95,7 @@ const game = async (heroes) => {
                 startingOrder[noTurn].HPG = false;
                 console.log(`El erudito aprovecha para recuperar sus gafas y como lleva las gafas puestas no le hace daño`);
             }
-            else if(erudito.ANG >= 17 && erudito.ANG <= 18){
+            else if(erudito.ANG >= 19 && erudito.ANG <= 20){
                 erudito.HPG = true;
                 startingOrder[noTurn].HPG = false;
                 startingOrder[turn].HPG = false;
