@@ -48,7 +48,8 @@ const game = async (heroes) => {
     while(villainZarate.powerstats.hitPoints > 0 && superHero.powerstats.hitPoints > 0){
         let success;
         
-        if(eruditoSpawn === 0){
+        if(eruditoSpawn === 0 && erudito.HP > 0){
+            console.log(`------------------------------`);
             eruditoSpawn = Math.floor(Math.random() * ( 5 - 3 + 1 ) + 3);
 
             const diceThrow = diceNumbers.dice1D20();
@@ -63,14 +64,14 @@ const game = async (heroes) => {
                 damage = dice;
 
                 startingOrder[turn].powerstats.strength = Math.floor(startingOrder[turn].powerstats.strength / 2);
-                console.log(`Pifia, ${superHero.name} se lesiona el brazo izquierdo`);
+                console.log(`Pifia, ${superHero.name} se lesiona el brazo izquierdo y se hace ${damage} de daño`);
             }
             else if(erudito.ANG >= 4 && erudito.ANG <= 6){
                 const dice = diceNumbers.dice1D20;
                 damage = dice;
 
                 startingOrder[turn].powerstats.strength = Math.floor(startingOrder[turn].powerstats.strength / 2);
-                console.log(`Pifia, ${superHero.name} se lesiona el brazo derecho`);
+                console.log(`Pifia, ${superHero.name} se lesiona el brazo derecho y se hace ${damage} de daño`);
             }
             else if(erudito.ANG >= 7 && erudito.ANG <= 9){
                 startingOrder[turn].hitPoints = -1;
@@ -80,14 +81,28 @@ const game = async (heroes) => {
             else if(erudito.ANG >= 10 && erudito.ANG <= 13){
                 const dice = diceNumbers.dice1D10();
                 damage = dice;
-                console.log(`${erudito.name} grita: TÚ ERES TONTO`);
+                console.log(`${erudito.name} grita: TÚ ERES TONTO y le hace ${damage} de daño`);
             }
             else if(erudito.ANG >= 14 && erudito.ANG <= 16){
+                erudito.HPG = false;
+                startingOrder[noTurn].HPG = true;
+                console.log(`El atacante aprovechará un despiste del enemigo para colocarle las gafas`);
+            }
+            else if(erudito.ANG >= 17 && erudito.ANG <= 18){
                 const dice = diceNumbers.dice1D10();
                 damage = dice;
-                console.log(`${erudito.name} grita: TÚ ERES TONTO`);
+                erudito.HPG = true;
+                startingOrder[noTurn].HPG = false;
+                console.log(`El erudito aprovecha para recuperar sus gafas y como lleva las gafas puestas no le hace daño`);
             }
-            
+            else if(erudito.ANG >= 17 && erudito.ANG <= 18){
+                erudito.HPG = true;
+                startingOrder[noTurn].HPG = false;
+                startingOrder[turn].HPG = false;
+                console.log(`${startingOrder[turn]} desata todo el caos de El Erudito, persiguiéndole y cortándole la cabeza`);
+                erudito.HP = 0;
+            }
+            console.log(`------------------------------`);
         }
         else{
             eruditoSpawn--;
@@ -217,7 +232,8 @@ const createErudito = () => {
         name: "El Erudito X.G.",
         ANG: 0,
         HPW: diceResult + 1,
-        HPG: "Invincible"
+        HPG: "Invincible",
+        HP: 666
     }
     return erudito;
 }
